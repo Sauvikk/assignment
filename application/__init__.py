@@ -8,8 +8,8 @@ app.secret_key = 'secret'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'application.db')
 
 db = SQLAlchemy(app)
 
-from app import views, models
+from application import views, models

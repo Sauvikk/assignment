@@ -1,3 +1,3 @@
 #!flask/bin/python
-from app import db
+from application import db
 db.create_all()
