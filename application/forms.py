@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import TextField, TextAreaField, SubmitField, validators, ValidationError, PasswordField
+from flask_wtf.file import FileField
 from .models import User
 
 
@@ -16,7 +17,6 @@ class SignupForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-
         user = User.query.filter_by(email=self.email.data.lower()).first()
         if user:
             self.email.errors.append("That email is already taken")
@@ -43,3 +43,9 @@ class SigninForm(Form):
         else:
             self.email.errors.append("Invalid e-mail or password")
             return False
+
+
+class FileUpload(Form):
+    file = FileField("Choose a File", [validators.Required("Please enter a valid file.")])
+    submit = SubmitField("Upload")
+

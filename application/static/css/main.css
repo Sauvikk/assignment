@@ -100,7 +100,7 @@ form label {
 
 form input#name,
 form input#email,
-form input#subject {
+form input#file{
   width: 400px;
   background-color: #fafafa;
   -webkit-border-radius: 3px;

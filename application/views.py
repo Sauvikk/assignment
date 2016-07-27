@@ -1,7 +1,8 @@
 from application import app, db
 from flask import render_template, request, session, url_for, redirect
-from .forms import SignupForm, SigninForm
+from .forms import SignupForm, SigninForm, FileUpload
 from .models import User
+import re
 
 
 @app.route('/')
@@ -50,6 +51,23 @@ def profile():
         return redirect(url_for('signin'))
     else:
         return render_template('profile.html')
+
+
+@app.route('/fileUpload', methods=['GET', 'POST'])
+def fileUpload():
+    # if 'email' not in session:
+    #     return redirect(url_for('signin'))
+    form = FileUpload()
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            data = file.read().decode("utf-8")
+            lc = len(data.split('\n'))
+            cc = len(re.findall('[a-zA-Z]', data))
+            wc = len(re.findall(r'\w+', data))
+            return render_template('upload_file.html', form=form, lc=lc, cc=cc, wc=wc, data=data)
+    else:
+        return render_template('upload_file.html', form=form)
 
 
 @app.route('/signin', methods=['GET', 'POST'])

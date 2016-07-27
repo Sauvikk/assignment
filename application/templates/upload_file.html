@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>File Upload</h2>
+
+<form action="{{ url_for('fileUpload') }}" method=post enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    {{ form.file.label }}
+    {{ form.file}}
+
+    {{ form.submit }}
+</form>
+
+{% if wc and lc and cc and data %}
+    <pre>{{data}}</pre>
+    <table style="width:100%">
+        <tr>
+            <th>LINE COUNT</th>
+            <td>{{lc}}</td>
+        </tr>
+        <tr>
+            <th>WORD COUNT</th>
+            <td>{{wc}}</td>
+        </tr>
+        <tr>
+            <th>CHARACTER COUNT</th>
+            <td>{{cc}}</td>
+        </tr>
+    </table>
+{% endif %}
+{% endblock %}
