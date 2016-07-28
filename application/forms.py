@@ -49,3 +49,8 @@ class FileUpload(Form):
     file = FileField("Choose a File", [validators.Required("Please enter a valid file.")])
     submit = SubmitField("Upload")
 
+
+class FibonacciForm(Form):
+    number = TextField("Enter a Number",  [validators.Required("Please enter a number")])
+    submit = SubmitField("Submit")
+

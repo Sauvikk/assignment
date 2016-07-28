@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Fibonacci</h2>
+
+<form action="{{ url_for('fibonacci') }}" method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.number.label }}
+    {{ form.number}}
+
+    {{ form.submit }}
+</form>
+
+{% if output %}
+    {% for a in output %}
+        <h3>{{a}}</h3>
+    {% endfor %}
+{% endif %}
+{% endblock %}

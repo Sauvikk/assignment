@@ -1,6 +1,6 @@
 from application import app, db
 from flask import render_template, request, session, url_for, redirect
-from .forms import SignupForm, SigninForm, FileUpload
+from .forms import SignupForm, SigninForm, FileUpload, FibonacciForm
 from .models import User
 import re
 
@@ -70,6 +70,20 @@ def fileUpload():
         return render_template('upload_file.html', form=form)
 
 
+@app.route('/fibonacci', methods=['GET', 'POST'])
+def fibonacci():
+    # if 'email' not in session:
+    #     return redirect(url_for('signin'))
+    form = FibonacciForm()
+    if request.method == 'POST':
+        n = form.number.data
+        output = fibo(int(n))
+        return render_template('fibonacci.html', form=form, output=output)
+    else:
+        print('here')
+        return render_template('fibonacci.html', form=form)
+
+
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     form = SigninForm()
@@ -93,3 +107,15 @@ def signout():
 
     session.pop('email', None)
     return redirect(url_for('home'))
+
+
+def fibo(n):
+    a, b = 0, 1
+    result = [0]
+    for _ in range(n-1):
+        a, b = b, a + b
+        result.append(a)
+    return result
+
+
+
