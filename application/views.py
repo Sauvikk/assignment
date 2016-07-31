@@ -116,12 +116,13 @@ def load_user(uid):
 # Middleware
 @app.before_request
 def before_request():
-    print('here before request')
     g.user = current_user
     if g.user.is_authenticated:
         val = datetime.utcnow()
-        print('set cookie')
-        response = make_response(redirect(url_for(request.endpoint)))
+        if request.endpoint == "static":
+            response = make_response()
+        else:
+            response = make_response(redirect(url_for(request.endpoint)))
         response.set_cookie('last_access_t', value=str(val))
 
 
