@@ -2,31 +2,49 @@
 
 {% block content %}
 <h2>File Upload</h2>
-
+{% include 'flash.html' %}
 <form action="{{ url_for('fileUpload') }}" method=post enctype="multipart/form-data">
     {{ form.hidden_tag() }}
 
-    {{ form.file.label }}
-    {{ form.file}}
+    <div class="control-group">
+        <label class="control-label" for="file">Upload a file</label>
+        <div class="controls">
+            {{ form.file }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox" for="showFile">
+                {{ form.showFile }} Show File
+            </label>
+        </div>
+    </div>
 
     {{ form.submit }}
 </form>
 
-{% if wc and lc and cc and data %}
+{% if data and show %}
     <pre>{{data}}</pre>
-    <table style="width:100%">
-        <tr>
-            <th>LINE COUNT</th>
-            <td>{{lc}}</td>
-        </tr>
-        <tr>
-            <th>WORD COUNT</th>
-            <td>{{wc}}</td>
-        </tr>
-        <tr>
-            <th>CHARACTER COUNT</th>
-            <td>{{cc}}</td>
-        </tr>
-    </table>
+{% endif %}
+
+{% if wc and lc and cc and data %}
+<table style="width:100%" cellpadding="40"  border="5px">
+    <tr>
+        <th>LINE COUNT</th>
+        <td>{{lc}}</td>
+    </tr>
+    <tr>
+        <th>WORD COUNT</th>
+        <td>{{wc}}</td>
+    </tr>
+    <tr>
+        <th>CHARACTER COUNT</th>
+        <td>{{cc}}</td>
+    </tr>
+</table>
+
+<br>
+<br>
 {% endif %}
 {% endblock %}

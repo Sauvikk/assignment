@@ -1,14 +1,16 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, TextAreaField, SubmitField, validators, ValidationError, PasswordField
 from flask_wtf.file import FileField
+from wtforms import StringField, SubmitField, validators, PasswordField, IntegerField, BooleanField
 from .models import User
+from  flask import flash
+from wtforms.validators import NumberRange
 
 
-class SignupForm(Form):
-    first_name = TextField("First name",  [validators.Required("Please enter your first name.")])
-    last_name = TextField("Last name",  [validators.Required("Please enter your last name.")])
-    email = TextField("Email",  [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
-    password = PasswordField('Password', [validators.Required("Please enter a password.")])
+class RegisterForm(Form):
+    first_name = StringField("first_name",  [validators.Required("Please enter your first name.")])
+    last_name = StringField("last_name",  [validators.Required("Please enter your last name.")])
+    email = StringField("email",  [validators.Required("Please enter your email address."), validators.Email("Please enter a valid email.")])
+    password = PasswordField('password', [validators.Required("Please enter a password.")])
     submit = SubmitField("Create account")
 
     def __init__(self, *args, **kwargs):
@@ -19,15 +21,15 @@ class SignupForm(Form):
             return False
         user = User.query.filter_by(email=self.email.data.lower()).first()
         if user:
-            self.email.errors.append("That email is already taken")
+            self.email.errors.append("This email is already taken")
             return False
         else:
             return True
 
 
-class SigninForm(Form):
-    email = TextField("Email",  [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
-    password = PasswordField('Password', [validators.Required("Please enter a password.")])
+class LoginForm(Form):
+    email = StringField("email",  [validators.Required("Please enter your email address."), validators.Email("Please enter a valid email.")])
+    password = PasswordField('password', [validators.Required("Please enter a password.")])
     submit = SubmitField("Sign In")
 
     def __init__(self, *args, **kwargs):
@@ -36,21 +38,29 @@ class SigninForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-
-        user = User.query.filter_by(email = self.email.data.lower()).first()
+        user = User.query.filter_by(email=self.email.data.lower()).first()
         if user and user.check_password(self.password.data):
-            return True
+            return user
         else:
-            self.email.errors.append("Invalid e-mail or password")
+            flash("Invalid e-mail or password")
             return False
 
 
-class FileUpload(Form):
+class FileUploadForm(Form):
     file = FileField("Choose a File", [validators.Required("Please enter a valid file.")])
+    showFile = BooleanField('showFile', default=True)
     submit = SubmitField("Upload")
 
 
 class FibonacciForm(Form):
-    number = TextField("Enter a Number",  [validators.Required("Please enter a number")])
+    number = IntegerField("number", validators=[NumberRange(min=1, max=10)])
     submit = SubmitField("Submit")
 
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        else:
+            return True

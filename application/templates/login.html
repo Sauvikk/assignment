@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Login</h2>
+
+
+{% include 'flash.html' %}
+<form action="" method=post>
+    {{ form.hidden_tag() }}
+
+    <div class="control-group{% if form.email.errors %} error{% endif %}">
+        <label class="control-label" for="email">Email</label>
+        <div class="controls">
+            {{ form.email }}
+            {% for error in form.email.errors %}
+            <span class="help-inline">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="control-group{% if form.password.errors %} error{% endif %}">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+            {{ form.password }}
+            {% for error in form.password.errors %}
+            <span class="help-inline">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{{url_for('register')}}"> New User</a>
+    <br>
+    <br>
+
+    {{ form.submit }}
+</form>
+
+{% endblock %}

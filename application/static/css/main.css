@@ -100,8 +100,8 @@ form label {
 
 form input#name,
 form input#email,
-form input#file
-form input#number{
+form input#number,
+form input#file{
   width: 400px;
   background-color: #fafafa;
   -webkit-border-radius: 3px;
@@ -112,7 +112,8 @@ form input#number{
   font-size: 1.1em;
 }
 
-form input#submit {
+form input#submit,
+ form input#file{
   display: block;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
@@ -131,7 +132,8 @@ form input#submit {
   background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
 }
 
-form input#submit:hover{
+form input#submit:hover,
+form input#file:hover{
   cursor: pointer;
   border:1px solid #c1c1c1;
   background-color: #dbdbdb;
