@@ -10,8 +10,8 @@
         <label class="control-label" for="number">Number</label>
         <div class="controls">
             {{ form.number }}
-            {% for error in form.number.errors %}
-            <span class="help-inline">[{{ error }}]</span><br>
+            {% if form.number.errors[0] %}
+            <span class="help-inline">[{{ form.number.errors[0] }}]</span><br>
             {% endfor %}
         </div>
     </div>
