@@ -1,5 +1,5 @@
 from application import app, db, lm
-from flask import render_template, request,url_for, redirect, g, flash, make_response
+from flask import render_template, request,url_for, redirect, g, flash, after_this_request
 from .forms import RegisterForm, LoginForm, FileUploadForm, FibonacciForm
 from .models import User
 from datetime import datetime
@@ -118,12 +118,12 @@ def load_user(uid):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated:
-        val = datetime.utcnow()
-        if request.endpoint == "static":
-            response = make_response()
-        else:
-            response = make_response(redirect(url_for(request.endpoint)))
-        response.set_cookie('last_access_t', value=str(val))
+        @after_this_request
+        def attach_cookie(response):
+            val = datetime.utcnow()
+            print('set cookie')
+            response.set_cookie('last_access_t', value=str(val))
+            return response
 
 
 
